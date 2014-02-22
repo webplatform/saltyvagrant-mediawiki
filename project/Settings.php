@@ -11,7 +11,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 ## Uncomment this to disable output compression
 # $wgDisableOutputCompression = true;
 
-$wgSitename      = "WebPlatform Docs [LOCAL]";
+$wgSitename      = "[LOCAL] WebPlatform Docs";
 
 $wgScriptExtension  = ".php";
 
@@ -30,8 +30,8 @@ $wgLogo             = "/wpdlogo.png";
 $wgEnableEmail      = true;
 $wgEnableUserEmail  = true; # UPO
 
-$wgEmergencyContact = "team-webplatform-systems@w3.org";
-$wgPasswordSender   = "team-webplatform-systems@w3.org";
+$wgEmergencyContact = "root@localhost";
+$wgPasswordSender   = "root@localhost";
 
 $wgEnotifUserTalk      = true; # UPO
 $wgEnotifWatchlist     = true; # UPO

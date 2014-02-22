@@ -12,8 +12,10 @@ ondrej-ppa:
     - require_in:
       - pkg: php5-latest
 
-php5-latest:
+php5-pkgs-latest:
   pkg:
     - latest
-    - name: php5
+    - pkgs:
+      - php5
+      - php5-mysqlnd
     - refresh: True

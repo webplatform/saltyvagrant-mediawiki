@@ -1,14 +1,13 @@
 # WebPlatform Docs MediaWiki workbench
 
-This repository is a workbench to extend current [WebPlatform.org](http://webplatform.org) 
-("WPD") MediaWiki extensions.
+This repository is a workbench to develop [WebPlatform.org](http://webplatform.org)
+("WPD") MediaWiki extensions on a VirtualMachine that mimicks the production environment.
 
-This workspace replicates, with some differences, the current *WPD* "app" server configured
-with Salt Stack. The main difference of the configuration is that whereas an "app" server is
-an Apache webserver connected to other VMs that provides Memcached and MySQL, this workspace
-provides those on the same VM.
+This workspace replicates, with some differences, an "`app{n}`" server that runs MediaWiki. You can [read about our infrastructure setup in our *blog*](http://blog.webplatform.org/2012/10/building-web-platforms-infrastructure/). The main difference in the
+provisioning configuration is that an "`app{n}`" server only runs *Apache webserver*,
+uses *Memcached* and *MySQL* from separate VMs. Whereas this configuration has it all-in-one.
 
-Please note that the current Salt states (in `salt/states/`) are currently a subset of the 
+Please note that the current Salt states (in `salt/states/`) are currently a subset of the
 full WPD salt configuration but they are not yet ready to be publicly visible.
 
 
@@ -16,17 +15,38 @@ full WPD salt configuration but they are not yet ready to be publicly visible.
 
 ## Development
 
+All the development work is made on your local machine and IDE. But the
+web server, database, and other services are running within the VM.
+
+
 ### Softwares to install
+
+Make sure you have the latest of those. I've seen issues working with the
+Vagrant environment without keeping them updated.
 
 1. [Vagrant 2.x](http://www.vagrantup.com/)
 2. [Oracle VM VirtualBox](https://www.virtualbox.org/)
+3. Salty Vagrant Vagrant plugin (installation covered below)
 
-### Procedure
 
-All the work is happening within the VM.
+### Procedures
 
-This procedure assumes either Linux or Mac OS X. If you used this workspace under Windows with
-Vagrant, feel free to contribute to the README to setup under that environment.
+Feel free to contribute your setup under a different Operating System
+environment that supports Vagrant.
+
+If you want setup manually your workspace, you can follow the Salt Stack
+states definitions stored in the `salt/` folder. Every definitions are space
+indendted text (YAML) describing required changes that can be applied on a
+blank Linux instance.
+
+Although the provisioner is using Salt Stack, the required configurations are
+concise enough to be understood without learning the syntax it uses.
+
+
+#### Mac OS X and Linux
+
+This procedure assumes either Linux or Mac OS X. If you used this workspace
+under Windows with Vagrant.
 
 1. Get a MediaWiki installation and a MySQL dump to work with
   - Keep the MySQL dump file in `utilities/snapshot.sql`
@@ -37,26 +57,29 @@ Vagrant, feel free to contribute to the README to setup under that environment.
     ```bash
     vagrant plugin install vagrant-salt
     ```
+    *NOTE*: If you have issues and you already use vagrant-salt, make sure you have the latest version or remove the plugin and re-install it.
 3. Run the VM
 
     ```bash
     vagrant up
     vagrant provision
     ```
-    Note that sometimes `vagrant provision` is not needed at all.
-4. Install dependencies from within the VM
+    *NOTE*: Sometimes `vagrant provision` is not needed at all.
+4. Connect to the VM, install dependencies
 
     ```bash
     vagrant ssh
+    salt state.highstate
     ```
-5. If you change a file in `salt/`, you need to apply states again
-    Its always good to make sure everything worked correctly, always run `state.highstate` to be 
-    sure all at their appropriate places.
+    *NOTE*: If you change a file in `salt/`, you need to apply states again
+    Its always good to make sure everything worked correctly, always run `state.highstate`
+    to be sure all at their appropriate places.
 
     ```bash
     salt state.highstate
     ```
-    Note that the salt command is defined in `/home/vagrant/.bash_aliases` to run 
+
+    *HINT*: The `salt` command is defined in `/home/vagrant/.bash_aliases` to run
     with Salt Stack in a Masterless fashion.
 6. Install database dump
 
@@ -70,13 +93,16 @@ Vagrant, feel free to contribute to the README to setup under that environment.
 
     mysql -u root wpwiki < utilities/snapshot.sql
     ```
-5. Create an entry in your hostfile
+5. Create an entry in your local machine `hosts` file
 
     ```bash
     sudo vi /etc/hosts
     33.33.32.5    docs.webplatform.local
     ```
     You can always change, or get the IP from the `Vagrantfile` if you want to change it.
+
+        wpwiki.vm.network :private_network, ip: "33.33.32.5"
+
 6. Code within this workspace outside the VM, browse [from the VMs web server](http://docs.webplatform.local/)
 
 
