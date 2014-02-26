@@ -5,7 +5,7 @@
     - user: root
     - group: root
     - mode: 444
-    - requires:
+    - require:
       - pkg: apache2
     - watch_in:
       - service: apache2
@@ -17,7 +17,7 @@
     - user: root
     - group: root
     - mode: 444
-    - requires:
+    - require:
       - pkg: apache2
     - watch_in:
       - service: apache2
@@ -25,7 +25,7 @@
 /etc/apache2/sites-enabled/disabled:
   file.symlink:
     - target: /etc/apache2/sites-available/disabled
-    - requires:
+    - require:
       - file: /etc/apache2/sites-enabled/disabled
     - watch_in:
       - service: apache2

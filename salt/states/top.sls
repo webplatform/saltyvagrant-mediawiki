@@ -8,3 +8,4 @@
     - dev-environment
     - mediawiki
     - mediawiki.scaler
+    - mdn-compat-importer

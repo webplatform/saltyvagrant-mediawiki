@@ -51,7 +51,8 @@ $wgDBname = "wpwiki";
 $wgUploadDirectory = "/srv/webplatform/wiki/images/";
 
 # Temporary test, adjust Settings.php when ready to use same for both
-require_once("$IP/extensions/CompaTables/compatables.php");
+require_once("$IP/extensions/CompaTablesNew/compatables.php");
+$wgCompatablesJsonFileUrl = 'http://docs.webplatform.local/compat/data.json';
 
 ## Add shared configuration
 require_once( "$IP/../Settings.php" );
