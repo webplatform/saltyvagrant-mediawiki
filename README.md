@@ -64,12 +64,11 @@ under Windows with Vagrant.
     vagrant up
     vagrant provision
     ```
-    *NOTE*: Sometimes `vagrant provision` is not needed at all.
+    *NOTE*: Sometimes `vagrant provision` is not needed at all. In any case, in the next step `state.highstate` would do the same thing as `vagrant provision`.
 4. Connect to the VM, install dependencies
 
     ```bash
     vagrant ssh
-    salt state.highstate
     ```
     *NOTE*: If you change a file in `salt/`, you need to apply states again
     Its always good to make sure everything worked correctly, always run `state.highstate`
@@ -81,19 +80,16 @@ under Windows with Vagrant.
 
     *HINT*: The `salt` command is defined in `/home/vagrant/.bash_aliases` to run
     with Salt Stack in a Masterless fashion.
+5. Have a MySQL dump of a MediaWiki installation in `~/workspace/utilities/wptestwiki.sql`
 6. Install database dump
 
     ```bash
     cd /vagrant
 
-    mysql -u root
-
-    mysql> create database wpwiki;
-    mysql quit;
-
-    mysql -u root wpwiki < utilities/snapshot.sql
+    salt mysql.db_create wpwiki
+    mysql -u root wpwiki < ~/workspace/utilities/snapshot.sql
     ```
-5. Create an entry in your local machine `hosts` file
+7. Create an entry in your local machine `hosts` file
 
     ```bash
     sudo vi /etc/hosts
@@ -103,6 +99,6 @@ under Windows with Vagrant.
 
         wpwiki.vm.network :private_network, ip: "33.33.32.5"
 
-6. Code within this workspace outside the VM, browse [from the VMs web server](http://docs.webplatform.local/)
+8. Code within this workspace outside the VM, browse [from the VMs web server](http://docs.webplatform.local/)
 
 

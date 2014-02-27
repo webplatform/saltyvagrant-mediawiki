@@ -1,6 +1,7 @@
 'base':
   '*':
     - mysql.server
+    - mysql.salt_local_module
     - php.mysql
     - php.apache
     - php.composer
