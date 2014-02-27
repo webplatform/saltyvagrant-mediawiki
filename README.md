@@ -1,14 +1,18 @@
 # WebPlatform Docs MediaWiki workbench
 
 This repository is a workbench to develop [WebPlatform.org](http://webplatform.org)
-("WPD") MediaWiki extensions on a VirtualMachine that mimicks the production environment.
+("WPD") MediaWiki extensions on a VirtualMachine that mimicks the production
+environment.
 
-This workspace replicates, with some differences, an "`app{n}`" server that runs MediaWiki. You can [read about our infrastructure setup in our *blog*](http://blog.webplatform.org/2012/10/building-web-platforms-infrastructure/). The main difference in the
-provisioning configuration is that an "`app{n}`" server only runs *Apache webserver*,
-uses *Memcached* and *MySQL* from separate VMs. Whereas this configuration has it all-in-one.
+This workspace replicates, with some differences, is a a **Subset** of the **Full WPD Salt configuration**, applied to an "`app{n}`" server in which we run MediaWiki.
+You can [read about our infrastructure setup in our *blog*](http://blog.webplatform.org/2012/10/building-web-platforms-infrastructure/).
 
-Please note that the current Salt states (in `salt/states/`) are currently a subset of the
-full WPD salt configuration but they are not yet ready to be publicly visible.
+The main difference in the provisioning configuration is that an "`app{n}`" server
+only runs *Apache webserver*, uses *Memcached* and *MySQL* from separate VMs. Whereas
+this configuration has it all-in-one.
+
+Although it is planned to publish the **Full WPD Salt configuration** publicly, we
+need to cleanup all private data first.
 
 
 # 1. Installation
