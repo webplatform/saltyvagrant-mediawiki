@@ -1,5 +1,6 @@
 include:
   - mysql
+  - mysql.salt_local_module
 
 mysql-server:
   pkg:

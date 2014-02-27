@@ -13,3 +13,4 @@ composer.phar
 /build/
 *.sublime-project
 *.sublime-workspace
+npm-debug.log

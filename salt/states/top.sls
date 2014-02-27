@@ -1,12 +1,12 @@
 'base':
   '*':
-    - mysql.server
-    - mysql.salt_local_module
+    - git
+    - nodejs
+    - php
     - php.mysql
     - php.apache
     - php.composer
-    - git
+    - mysql.server
     - dev-environment
     - mediawiki
     - mediawiki.scaler
-    - mdn-compat-importer

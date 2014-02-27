@@ -49,16 +49,15 @@ concise enough to be understood without learning the syntax it uses.
 
 #### Mac OS X and Linux
 
-This procedure assumes either Linux or Mac OS X. If you used this workspace
-under Windows with Vagrant.
+This procedure assumes either Linux or Mac OS X.
 
 **NOTE**: All files in workspace are mounted inside the VM at `/vagrant` and
 the VM's default user (vagrant) has a symbolic link from
 `~/workspace`pointing to it.
 
-1. Get a MediaWiki installation and a MySQL dump to work with
-  - Keep the MySQL dump file in `utilities/snapshot.sql`
-  - Install your full MediaWiki installation in `project/wiki/`, it will be the docroot
+1. Prepare local workspace to have code checkouts ready for the VM
+  - Get a MediaWiki installation, put the files in the new folder `project/wiki/`, that's where the Apache configuration will serve MediaWiki
+  - Get a MediaWiki MySQL dump file in `utilities/snapshot.sql`
   - Put some desired (if needed) files in `project/root/`, as they will be served as `/var/www`
 
 2. Install Vagrant provisioner plugin ("Salt stack")
@@ -72,9 +71,10 @@ the VM's default user (vagrant) has a symbolic link from
 
     ```bash
     vagrant up
-    vagrant provision
     ```
-    *NOTE*: Sometimes `vagrant provision` is not needed at all. In any case, in the next step `state.highstate` would do the same thing as `vagrant provision`.
+    *NOTE*: The first run seem to always fail. This is because some states are about enabling apache2 modules and salt considers the return message (e.g. "To activate the new configuration, you need to run") as an error.
+
+    Do not worry about those errors for now, just continue at next step and `state.highstate` below will give you colored error messages. That'll be easier to work with, but with last attempts, running `state.highstate` in the VM a second time fixes everything.
 
 4. Connect to the VM, install dependencies
 
