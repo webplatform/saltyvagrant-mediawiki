@@ -48,16 +48,22 @@ concise enough to be understood without learning the syntax it uses.
 This procedure assumes either Linux or Mac OS X. If you used this workspace
 under Windows with Vagrant.
 
+**NOTE**: All files in workspace are mounted inside the VM at `/vagrant` and
+the VM's default user (vagrant) has a symbolic link from
+`~/workspace`pointing to it.
+
 1. Get a MediaWiki installation and a MySQL dump to work with
   - Keep the MySQL dump file in `utilities/snapshot.sql`
   - Install your full MediaWiki installation in `project/wiki/`, it will be the docroot
   - Put some desired (if needed) files in `project/root/`, as they will be served as `/var/www`
+
 2. Install Vagrant provisioner plugin ("Salt stack")
 
     ```bash
     vagrant plugin install vagrant-salt
     ```
     *NOTE*: If you have issues and you already use vagrant-salt, make sure you have the latest version or remove the plugin and re-install it.
+
 3. Run the VM
 
     ```bash
@@ -65,6 +71,7 @@ under Windows with Vagrant.
     vagrant provision
     ```
     *NOTE*: Sometimes `vagrant provision` is not needed at all. In any case, in the next step `state.highstate` would do the same thing as `vagrant provision`.
+
 4. Connect to the VM, install dependencies
 
     ```bash
@@ -80,16 +87,19 @@ under Windows with Vagrant.
 
     *HINT*: The `salt` command is defined in `/home/vagrant/.bash_aliases` to run
     with Salt Stack in a Masterless fashion.
+
 5. Have a MySQL dump of a MediaWiki installation in `~/workspace/utilities/wptestwiki.sql`
+
 6. Install database dump
 
     ```bash
     cd /vagrant
 
     salt mysql.db_create wpwiki
-    mysql -u root wpwiki < ~/workspace/utilities/snapshot.sql
+    mysql -u root wpwiki < utilities/snapshot.sql
     ```
-7. Create an entry in your local machine `hosts` file
+
+7. Create an entry in your **local host machine** `hosts` file
 
     ```bash
     sudo vi /etc/hosts
@@ -99,6 +109,7 @@ under Windows with Vagrant.
 
         wpwiki.vm.network :private_network, ip: "33.33.32.5"
 
-8. Code within this workspace outside the VM, browse [from the VMs web server](http://docs.webplatform.local/)
+8. Code within this workspace outside the VM, browse [from the VMs web server.
 
+    http://docs.webplatform.local/
 
