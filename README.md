@@ -62,58 +62,51 @@ the VM's default user (vagrant) has a symbolic link from
 
 2. Install Vagrant provisioner plugin ("Salt stack")
 
-    ```bash
-    vagrant plugin install vagrant-salt
-    ```
+        vagrant plugin install vagrant-salt
+
     *NOTE*: If you have issues and you already use vagrant-salt, make sure you have the latest version or remove the plugin and re-install it.
 
 3. Run the VM
 
-    ```bash
-    vagrant up
-    ```
+        vagrant up
+
     *NOTE*: The first run seem to always fail. This is because some states are about enabling apache2 modules and salt considers the return message (e.g. "To activate the new configuration, you need to run") as an error.
 
     Do not worry about those errors for now, just continue at next step and `state.highstate` below will give you colored error messages. That'll be easier to work with, but with last attempts, running `state.highstate` in the VM a second time fixes everything.
 
 4. Connect to the VM, install dependencies
 
-    ```bash
-    vagrant ssh
-    ```
+        vagrant ssh
+
     *NOTE*: If you change a file in `salt/`, you need to apply states again
     Its always good to make sure everything worked correctly, always run `state.highstate`
     to be sure all at their appropriate places.
 
-    ```bash
-    salt state.highstate
-    ```
+        salt state.highstate
 
-    *HINT*: The `salt` command is defined in `/home/vagrant/.bash_aliases` to run
+    *HINT!*: The `salt` command is defined in `/home/vagrant/.bash_aliases` to run
     with Salt Stack in a Masterless fashion.
 
-5. Have a MySQL dump of a MediaWiki installation in `~/workspace/utilities/wptestwiki.sql`
+5. Install database dump
 
-6. Install database dump
+        salt mysql.db_create wpwiki
+        mysql -u root wpwiki < workspace/utilities/snapshot.sql
 
-    ```bash
-    cd /vagrant
+6. Create an entry in your **VM host** machine `hosts` file
 
-    salt mysql.db_create wpwiki
-    mysql -u root wpwiki < utilities/snapshot.sql
-    ```
+        sudo vi /etc/hosts
+        33.33.32.5    docs.webplatform.local
 
-7. Create an entry in your **local host machine** `hosts` file
-
-    ```bash
-    sudo vi /etc/hosts
-    33.33.32.5    docs.webplatform.local
-    ```
     You can always change, or get the IP from the `Vagrantfile` if you want to change it.
 
         wpwiki.vm.network :private_network, ip: "33.33.32.5"
 
-8. Code within this workspace outside the VM, browse [from the VMs web server.
+7. Code within this workspace outside the VM, browse from the VMs web server.
 
     http://docs.webplatform.local/
 
+8. Restart local apache web server
+
+        salt service.restart apache2
+
+    *HINT!* you could had run the `sudo service apache2 reload`, but using salt stack to execute things can be a good habit to get.
