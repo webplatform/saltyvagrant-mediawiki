@@ -397,7 +397,9 @@ require_once( "$IP/extensions/cldr/cldr.php" );
 require_once("$IP/extensions/Narayam/Narayam.php");
 
 # compatibily table extension
-#require_once("$IP/extensions/CompaTables/compatables.php");
+require_once("$IP/extensions/CompaTables/compatables.php");
+$wgCompatablesJsonFileUrl = 'http://docs.webplatform.local/compat/data.json';
+$wgCompatablesUseESI = true;
 
 # lookup users
 require_once( "$IP/extensions/LookupUser/LookupUser.php" );

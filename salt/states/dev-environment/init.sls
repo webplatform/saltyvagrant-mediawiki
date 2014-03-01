@@ -51,6 +51,13 @@ move-varwww:
   file.symlink:
     - target: /vagrant/project
 
+have-entry-hosts:
+  host.present:
+    - ip: 127.0.0.1
+    - names:
+      - localhost
+      - docs.webplatform.local
+
 disable-default:
   cmd:
     - wait
